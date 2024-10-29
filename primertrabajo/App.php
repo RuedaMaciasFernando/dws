@@ -3,6 +3,8 @@
 class App
 {
 
+  
+
   public function __construct()
   {
     session_start();
@@ -41,6 +43,7 @@ class App
           if (preg_match("/^.{8,}$/", $_POST["password"])) {
             $_SESSION["correo"] = $_POST['correo'];
             $_SESSION["password"] = $_POST['password'];
+            setcookie("correosesion", $_POST["correo"], time() + 3600 * 24);
             header('Location: ?method=home');
           } else {
             $_SESSION["errorcontraseña"] = true;
@@ -63,7 +66,7 @@ class App
 
   public function close()
   {
-    // Destruir la sesión
+    include("views/login.php");
     session_destroy();
     header("Location: ?method=login");
   }
@@ -71,29 +74,38 @@ class App
   public function RegistrarProducto()
   {
     include("views/registrarProducto.php");
-
-
-    if (isset($_POST["Producto"]) && isset($_POST["Stock"]) && isset($_POST["PrecioUni"])) {
+    if (isset($_POST["Producto"]) && isset($_POST["Stock"]) && isset($_POST["PrecioUni"]) && isset($_COOKIE["correosesion"])) {
       if ($_POST['Producto'] != "" && $_POST['Stock'] != "" && $_POST["PrecioUni"] != "") {
+        if($_POST['Stock'] <= 0){
+          throw new Stockceromenor("Stock erroneo");
+        }else{
+          if($_POST['PrecioUni'] <= 0){
+            throw new Precioceromenor("Precio erroneo"); 
+        }else{
         if (isset($_COOKIE['DatosTabla'])) {
           $lista = unserialize($_COOKIE['DatosTabla']);
+          $correo = $_COOKIE["correosesion"];
         } else {
           $lista = [];
           
         }
-        $nuevoProducto = [$_POST['Producto'], $_POST['Stock'], $_POST["PrecioUni"]];
+        $nuevoProducto = [$_POST['Producto'], $_POST['Stock'], $_POST["PrecioUni"],$correo];
         //lo que estoy intentando hacer es meter un array dentro de la lista para que cada producto sea un array
         array_push($lista, $nuevoProducto);//meter al arrya dentro del array
         setcookie("DatosTabla", serialize($lista), time() + 3600 * 24);
       }
     }
-  }
+      }
+    
+    }
+ 
+    }
 
 
   public function BuscarProducto()
   {
     include("views/buscarProducto.php");
-  
+    
   }
 
 
@@ -101,6 +113,11 @@ class App
   {
 
     include("views/valorTotal.php");
+  }
+  public function eliminarElemento()
+  {
+    include("views/home.php");
+  
   }
 
   public function eliminartabla()

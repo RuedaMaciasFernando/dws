@@ -1,7 +1,43 @@
 <html>
+    <style>
+        button{
+
+font-family: "Roboto", sans-serif;
+text-transform: uppercase;
+outline: 0;
+background: #4CAF50;
+width: 100%;
+border: 0;
+padding: 15px;
+color: #FFFFFF;
+font-size: 14px;
+-webkit-transition: all 0.3 ease;
+transition: all 0.3 ease;
+cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+background: #43A047;
+}
+
+h1,p{
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  color:white;
+}
+
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: rgb(141,194,111);
+  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
+        </style>
+
 <body>
 
-<h2>Valor total de todos los productos del mercado</h2>
+<h1>Valor total de todos los productos del mercado</h1>
 
 <form action="?method=ValorTotal" method="post">
 </form> 
@@ -19,7 +55,7 @@
          }
      }
      
-     echo "El valor total de mi mercado es ".$valorTotal."$"; 
+     echo "<p>El valor total de mi mercado es ".$valorTotal."$ </p>"; 
  }
  
     ?>
