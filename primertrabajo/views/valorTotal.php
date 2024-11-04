@@ -26,7 +26,7 @@ h1,p{
 }
 
 body {
-  background: #76b852; /* fallback for old browsers */
+  background: #76b852; 
   background: rgb(141,194,111);
   background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
   font-family: "Roboto", sans-serif;
@@ -51,10 +51,10 @@ body {
 
        foreach ($lista as $producto) {
          foreach ($producto as $dato) {
-            $valorTotal += $producto[1] * $producto[2] / 3; 
+            $valorTotal += $producto[1] * $producto[2] / 4; 
          }
      }
-     
+     //el dividido para 4 es porque se muestra 4 veces por los 4 elementos del array
      echo "<p>El valor total de mi mercado es ".$valorTotal."$ </p>"; 
  }
  

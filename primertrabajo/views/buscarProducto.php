@@ -124,6 +124,7 @@ h1{
       <th>Producto</th>
       <th>Stock</th>
       <th>Precio Unidad</th>
+       <th>Añadido por</th>
     </tr>";
 
       foreach ($lista as $producto) {

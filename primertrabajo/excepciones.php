@@ -2,7 +2,7 @@
 class Stockceromenor extends Exception {
   public function errorMessage() {
     //error message
-    $errorMsg = "El stock no puede ser cero o negativo";
+    $errorMsg = "<p>El stock no puede ser cero o negativo</p>";
     return $errorMsg;
   }
 }
@@ -10,7 +10,7 @@ class Stockceromenor extends Exception {
 class Precioceromenor extends Exception {
     public function errorMessage() {
       //error message
-      $errorMsg = "El precio no puede ser cero o negativo";
+      $errorMsg = "<p>El precio no puede ser cero o negativo</p>";
       return $errorMsg;
     }
   }
@@ -18,7 +18,7 @@ class Precioceromenor extends Exception {
   class Productonoencontrado extends Exception {
     public function errorMessage() {
       //error message
-      $errorMsg = "El producto no existe";
+      $errorMsg = "<p>El producto no existe</p>";
       return $errorMsg;
     }
   }

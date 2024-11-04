@@ -155,7 +155,7 @@ header{
       foreach ($lista as $producto) {
         foreach ($producto as $dato) {
           if($producto[0] == $_POST["NombreProducto"]){
-
+            //intento eliminar elemento
           }
         }
     }
