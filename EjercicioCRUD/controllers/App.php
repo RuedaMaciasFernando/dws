@@ -18,14 +18,23 @@ class App
 
     public function home()
     {
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        } else {
+            $page = 1;
+        }
+        
+
+        $pages = DatosPelis::paginate($page,8);
+
+ 
         include("views/home.php");
     }
-
-
+    /*
     public function obtenerPelis()
     {
         //Llamas al modelo
-        $escritores = DatosPelis::consultarTodos();
+        $escritores = DatosPelis::paginate();
 
 
         
@@ -33,11 +42,20 @@ class App
         include("views/home.php");
 
     }
+        */
 
     public function BorrarPeli()
 
     {
-        DatosPelis::BorrarPelicula();
+        $resultadoborradopeli = DatosPelis::BorrarPelicula();
+
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        } else {
+            $page = 1;
+        }
+
+        $pages = DatosPelis::paginate($page,8);
         include("views/home.php");
 
     }
@@ -46,21 +64,20 @@ class App
     public function VerDatosIntroducidos()
 
     {
-        //DatosPelis::IntroducirDatos();
+        $resultadoañadidopeli = DatosPelis::IntroducirDatos();
         include("views/introducirX.php");
-
     }
 
     public function VerDatosActualizados()
     {
-        //DatosPelis::ActualizarDatos();
+        $resultadoactualizadopeli = DatosPelis::ActualizarDatos();
         include("views/ActualizarX.php");
 
     }
 
-    public function logout()
+    public function sesiones()
     {
-        //DatosPelis::GestionarSesiones();
+        DatosPelis::GestionarSesiones();
         include("views/login.php");
 
     }

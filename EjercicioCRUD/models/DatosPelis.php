@@ -6,7 +6,6 @@ class DatosPelis extends Model
 {
 
     private $id;
-    private $Rank;
     private $Title;
     private $Theaters;
     private $Total_Gross;
@@ -14,8 +13,41 @@ class DatosPelis extends Model
     private $Distributor;
 
 
+    public static function paginate($page = 1, $size = 10)
+{
+//obtener conexión
+$db = Model::db();
+//preparar consulta
+$sql = "SELECT count(id) FROM DatosPelis";
+//ejecutar
+$statement = $db->query($sql);
+//recoger datos con fetch_all
+$n = (int) $statement->fetch()[0]; //registros
+$n = ceil($n / $size); //pages
+
+$offset = ($page - 1) * $size;
+$sql1 = "SELECT * FROM DatosPelis LIMIT $offset, $size";
+$sql2 = "SELECT * FROM DatosPelis WHERE id > $offset LIMIT $size";
+$sql3 = "SELECT * FROM DatosPelis";
+//ejecutar
+$antes = microtime();
+$statement = $db->query($sql1);
+$despues = microtime();
+echo $despues - $antes;
+//recoger datos con fetch_all
+$peli = $statement->fetchAll(PDO::FETCH_CLASS, DatosPelis::class);
+//retornar
+$pages = new stdClass;
+
+$pages->peli = $peli;
+$pages->n = $n;
+return $pages;
+}
 
 
+
+
+/*
     public static function consultarTodos(){
         
         $todosEscritores = null;
@@ -38,21 +70,75 @@ class DatosPelis extends Model
         }
 
     }
+        */
 
-    public static function ActualizarDatos(){
+    public static function ActualizarDatos(){ 
+        try{
+
+            $conexion = DatosPelis::db();
+     
+            $sql1 = "UPDATE `DatosPelis` SET `Theaters`= ? ,`Total_Gross`= ? WHERE id = ? ";
+    
+          
+            $resultadoactualizadopeli = $conexion->prepare($sql1);
+            $resultadoactualizadopeli->bindValue(1, $_POST["CinesA"]);
+            $resultadoactualizadopeli->bindValue(2, $_POST["RecaudacionA"]);
+            $resultadoactualizadopeli->bindValue(3, $_POST["CodigoPeli"]);
+            $resultadoactualizadopeli->execute();
+
+      
+      
         
+          }catch(PDOException $e){  
+            echo "Problema en la conexion";
+            $conexion->rollback();
+          }catch(Exception $b){  
+            echo "Problema en la conexion";
+            $conexion->rollback();
+          }finally{
+            return $resultadoactualizadopeli;
+          }
+      
 
     }
 
 
     public static function IntroducirDatos(){
-        
+            // me sale un dato vacio y el otro me lo añade
+        try{
 
+            $conexion = DatosPelis::db();
+            $conexion->beginTransaction();
+     
+            $sql1 = "INSERT INTO `DatosPelis`(`Title`, `Theaters`, `Total_Gross`, `Release_Date`, `Distributor`) 
+            VALUES (?,?,?,?,?)";
+    
+      
+          
+            $resultadoañadidopeli = $conexion->prepare($sql1);
+            $resultadoañadidopeli->bindValue(1, $_POST["TituloI"]);
+            $resultadoañadidopeli->bindValue(2, $_POST["CinesI"]);
+            $resultadoañadidopeli->bindValue(3, $_POST["RecaudacionI"]);
+            $resultadoañadidopeli->bindValue(4, $_POST["fechaEstrenoI"]);
+            $resultadoañadidopeli->bindValue(5, $_POST["DistribuidorI"]);
+            $resultadoañadidopeli->execute();
+
+      
+            $conexion->commit();
+          
+          }catch(PDOException $e){  
+            echo "Problema en la conexion";
+            $conexion->rollback();
+          }catch(Exception $b){  
+            echo "Problema en la conexion";
+            $conexion->rollback();
+          }finally{
+            return $resultadoañadidopeli;
+          }
+      
     }
 
     public static function BorrarPelicula(){
-     //DELETE FROM `DatosPelis` WHERE id = ?; 
-     // me la borra, no me sale mensaje de confirmacion y no se actualiza ni el ranking ni el id  
      try{
 
         $conexion = DatosPelis::db();
@@ -70,20 +156,65 @@ class DatosPelis extends Model
         $resultadoborradopeli->execute();
   
   
-    
       }catch(PDOException $e){  
         echo "Problema en la conexion";
         $conexion->rollback();
       }catch(Exception $b){  
         echo "Problema en la conexion";
         $conexion->rollback();
+      }finally{
+        return $resultadoborradopeli;
       }
   
 
     }
 
     public static function GestionarSesiones(){
-        
+      //no me va nada, aunque tengo certeza de que las consultas estan bien
+      try{
+        $conexion = DatosPelis::db();
+
+        $_SESSION["Nombre"] = $_POST['Nombre'];
+        $_SESSION["password"] = $_POST['password'];
+  
+        $sql2 = "SELECT * FROM `usuarios` WHERE usuario = ?";
+      
+        $resultado = $conexion->prepare($sql2);
+        $resultado->bindValue(1,$_SESSION['Nombre']);
+        $resultado->execute();
+
+        if($resultado == false){
+          $sql1 = "INSERT INTO `usuarios`(`usuario`, `contrasenya`) 
+            VALUES (?,?)";
+
+    $resultado = $conexion->prepare($sql1);
+    $resultado->bindValue(1,$_SESSION['Nombre']);
+    $resultado->bindValue(2,$_SESSION['password']);
+    $resultado->execute();
+    //header('Location: ?method=home');
+
+        }else{
+
+          $sql3 = "SELECT usuario FROM `usuarios` WHERE contrasenya = ?";
+          $resultado = $conexion->prepare($sql3);
+          $resultado->bindValue(1,$_SESSION['password']);
+          $resultado->execute();
+
+          if($resultado == true){
+           // header('Location: ?method=home');
+          }else{
+            //header('Location: ?method=login');
+          }       
+
+        }
+
+      }catch(PDOException $e){  
+        echo "Problema en la conexion";
+      }finally{
+        // include("views/home.php");
+        $conexion = null;
+      }
+  
 
     }
 
@@ -95,13 +226,6 @@ class DatosPelis extends Model
     {
         return $this->id;
     }
-
-
-    public function getRank()
-    {
-        return $this->Rank;
-    }
-
 
     public function getTitle()
     {

@@ -8,8 +8,6 @@
 <div class="form">
 <form action="?method=VerDatosIntroducidos" method="post">
 
-  <label for="RangoI">Rango</label><br>
-  <input type="text" id="RangoI" name="RangoI" ><br>
 
   <label for="TituloI">Titulo</label><br>
   <input type="text" id="TituloI" name="TituloI" ><br><br>
@@ -22,8 +20,8 @@
   <input type="number" id="RecaudacionI" name="RecaudacionI" ><br><br>
 
 
-  <label for="fechaEstrenoI">Fecha de estreno</label><br>
-  <input type="date" id="fechaEstrenoI" name="fechaEstrenoI" ><br><br>
+  <label for="fechaEstrenoI">Fecha de estreno Formato(Dia-Mes-Anyo)</label><br>
+  <input type="text" id="fechaEstrenoI" name="fechaEstrenoI" ><br><br>
 
 
   <label for="DistribuidorI">Distribuidor</label><br>
@@ -33,6 +31,20 @@
 
 </form> 
 </div>
+
+<?php
+    if(isset($_POST["TituloI"]) && isset($_POST["CinesI"]) && isset($_POST["RecaudacionI"])
+     &&isset($_POST["fechaEstrenoI"]) && isset($_POST["DistribuidorI"]) ){
+    
+       
+      if($resultadoañadidopeli == true){
+        echo "Se ha actualizado la peli";
+      }else{
+        echo "No se ha podido actualizar la peli";
+
+      }
+  }
+?>
 
 <a href="?method=home"><button>Volver</button></a>
 

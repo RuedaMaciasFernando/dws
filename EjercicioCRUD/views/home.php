@@ -13,6 +13,12 @@ td{
   text-align: left;
   border:1px solid black;
 }
+.siuu{
+    margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+}
     </style>
 </head>
 
@@ -25,19 +31,13 @@ td{
     </h2>
 
     <header>
-    <a id="enlace" href="?method=logout">Cerrar sesion</a>
+    <a id="enlace" href="?method=sesiones">Cerrar sesion</a>
     <nav>
     <a href="?method=VerDatosIntroducidos">Añadir una pelicula |</a> 
     <a href="?method=VerDatosActualizados">Actualizar una pelicula</a> 
     </nav>
     </header>
     <br>
-
-
-            <form action="obtenerPelis" method="post">
-                <label for="">Cargar datos de peliculas</label><br>
-                <input type="submit" value="Cargar">
-            </form>
 
             <form action="BorrarPeli" method="post">
         <label for="Codigopeli">Codigo de la pelicula a eliminar:</label><br>
@@ -47,8 +47,6 @@ td{
 
     </form>
     <?php
-
-
 
 if(isset($_POST["codigopeli"])){
     
@@ -68,7 +66,6 @@ if(isset($_POST["codigopeli"])){
             <table style="width:100%">
                 <tr>
                     <th>Id</th>
-                    <th>Clasificacion</th>
                     <th>Titulo</th>
                     <th>Cines / Teatros</th>
                     <th>Recaudacion Total</th>
@@ -78,24 +75,30 @@ if(isset($_POST["codigopeli"])){
 
               
                 <?php
-                foreach ($escritores as $escritor) {
+                foreach ($pages->peli as $peli) {
                     echo "<tr>";
                     
-                    echo "<td>" . $escritor->getId() . "</td>";
-                    echo "<td>" . $escritor->getRank() . "</td>";
-                    echo "<td>" . $escritor->getTitle() . "</td>";
-                    echo "<td>" . $escritor->getTheaters() . "</td>";
-                    echo "<td>" . $escritor->getTotalGross() . "</td>";
-                    echo "<td>" . $escritor->getReleaseDate() . "</td>";
-                    echo "<td>" . $escritor->getDistributor() . "</td>";
+                    echo "<td>" . $peli->getId() . "</td>";
+                    echo "<td>" . $peli->getTitle() . "</td>";
+                    echo "<td>" . $peli->getTheaters() . "</td>";
+                    echo "<td>" . $peli->getTotalGross() . "</td>";
+                    echo "<td>" . $peli->getReleaseDate() . "</td>";
+                    echo "<td>" . $peli->getDistributor() . "</td>";
                 }
                 echo "</tr>";
 
                 ?>
 
             </table>
+                <div class="siuu">
+                <?php
+                for($i=1;$i<=$pages->n; $i++){
+                    echo "<a href='?page=$i'><button>$i</button></a>                                  ";
+                }
+                ?>
 
 
+                </div>
 
 </body>
 

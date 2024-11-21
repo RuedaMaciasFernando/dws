@@ -10,11 +10,10 @@
 
 <body>
     <h1>Iniciar sesion</h1>
-    <!--Poner metodo correcto -->
-    <form action="?method=" method="post">
-        <label for="correo">Correo electronico :</label>
+    <form action="?method=sesiones" method="post">
+        <label for="Nombre">Nombre:</label>
         <br>
-        <input type="text" name="correo"> 
+        <input type="text" name="Nombre"> 
         <br>
         <br>
         <label for="password">Contraseña :</label>
@@ -23,8 +22,6 @@
         <br>
         <input type="submit" value="Iniciar sesion">
     </form>
-
-
 
 </body>
 
