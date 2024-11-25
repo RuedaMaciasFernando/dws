@@ -31,7 +31,7 @@ td{
     </h2>
 
     <header>
-    <a id="enlace" href="?method=sesiones">Cerrar sesion</a>
+    <a id="enlace" href="?method=login">Cerrar sesion</a>
     <nav>
     <a href="?method=VerDatosIntroducidos">Añadir una pelicula |</a> 
     <a href="?method=VerDatosActualizados">Actualizar una pelicula</a> 

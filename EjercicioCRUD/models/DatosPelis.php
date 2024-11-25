@@ -169,58 +169,6 @@ return $pages;
 
     }
 
-    public static function GestionarSesiones(){
-      //no me va nada, aunque tengo certeza de que las consultas estan bien
-      try{
-        $conexion = DatosPelis::db();
-
-        $_SESSION["Nombre"] = $_POST['Nombre'];
-        $_SESSION["password"] = $_POST['password'];
-  
-        $sql2 = "SELECT * FROM `usuarios` WHERE usuario = ?";
-      
-        $resultado = $conexion->prepare($sql2);
-        $resultado->bindValue(1,$_SESSION['Nombre']);
-        $resultado->execute();
-
-        if($resultado == false){
-          $sql1 = "INSERT INTO `usuarios`(`usuario`, `contrasenya`) 
-            VALUES (?,?)";
-
-    $resultado = $conexion->prepare($sql1);
-    $resultado->bindValue(1,$_SESSION['Nombre']);
-    $resultado->bindValue(2,$_SESSION['password']);
-    $resultado->execute();
-    //header('Location: ?method=home');
-
-        }else{
-
-          $sql3 = "SELECT usuario FROM `usuarios` WHERE contrasenya = ?";
-          $resultado = $conexion->prepare($sql3);
-          $resultado->bindValue(1,$_SESSION['password']);
-          $resultado->execute();
-
-          if($resultado == true){
-           // header('Location: ?method=home');
-          }else{
-            //header('Location: ?method=login');
-          }       
-
-        }
-
-      }catch(PDOException $e){  
-        echo "Problema en la conexion";
-      }finally{
-        // include("views/home.php");
-        $conexion = null;
-      }
-  
-
-    }
-
-
-
-
 
     public function getId()
     {

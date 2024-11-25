@@ -10,15 +10,15 @@
 
 <body>
     <h1>Iniciar sesion</h1>
-    <form action="?method=sesiones" method="post">
+    <form action="?method=login" method="post">
         <label for="Nombre">Nombre:</label>
         <br>
-        <input type="text" name="Nombre"> 
+        <input type="text" id="Nombre" name="Nombre"> 
         <br>
         <br>
         <label for="password">Contraseña :</label>
         <br>
-        <input type="password" name="password"> <br>
+        <input type="password" id="password" name="password"> <br>
         <br>
         <input type="submit" value="Iniciar sesion">
     </form>
