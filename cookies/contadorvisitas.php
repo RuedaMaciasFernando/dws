@@ -9,16 +9,10 @@ if(!isset($_COOKIE["visitas"])){
     $visitas = (int)$_COOKIE["visitas"];
     $visitas++;
     setcookie("visitas",$visitas,time()+ 3600*24);
+    echo date("l jS \of F Y h:i:s A") . "<br>";
     echo"Pagina visitada " .$visitas." veces" ;
 }
 
-
-if(isset($_GET["boton"])){
-    var_dump( $_COOKIE );
-    setcookie("visitas","0",time()+ 3600*24);
-    echo "Pagina visitada por primera vez";
-
-}
 ?>
 
 
@@ -33,11 +27,6 @@ if(isset($_GET["boton"])){
 
 <body>
 
-<form action="" method="get"> 
-
-<input href="#" type="submit" value="Resetear" name="boton">
-
-</form>
 
 
 
